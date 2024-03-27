@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+
     <%@ include file="../include/static-head.jsp" %>
 
     <link rel="stylesheet" href="/assets/css/list.css" >
@@ -14,7 +15,8 @@
 
 <body>
 
-    <%@ include file="../include/header.jsp" %>
+<%@ include file="../include/header.jsp" %>
+
 
 <div id="wrap">
 

@@ -16,23 +16,36 @@ public class BoardService {
 
     private final BoardRepository repository;
 
+
     public void register(BoardWriteRequestDTO dto) {
         Board board = new Board(dto); // dto를 entity로 변환
         repository.save(board);
     }
 
-
-    // repository로부터 전달받은 entity List를 DTO List로 변환해서 컨트롤러에게 리턴
+    // repository로부터 전달받은 entity List를 DTO List로 변환해서 컨트롤러에게 리턴.
     public List<BoardListResponseDTO> getList() {
-
         List<BoardListResponseDTO> dtoList = new ArrayList<>();
         List<Board> boardList = repository.findAll();
         for (Board board : boardList) {
             BoardListResponseDTO dto = new BoardListResponseDTO(board);
             dtoList.add(dto);
         }
-
         return dtoList;
-
     }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

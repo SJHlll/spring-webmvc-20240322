@@ -29,7 +29,7 @@ public class BoardListResponseDTO {
     }
 
     private String makePrettierDateString(LocalDateTime regDate) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH;mm");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return dtf.format(regDate);
     }
 
@@ -38,7 +38,7 @@ public class BoardListResponseDTO {
     }
 
     private String makeShortTitle(String title) {
-        return sliceString(title,5);
+        return sliceString(title, 5);
     }
 
     /**
@@ -54,4 +54,17 @@ public class BoardListResponseDTO {
                 : targetString
                 ;
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+

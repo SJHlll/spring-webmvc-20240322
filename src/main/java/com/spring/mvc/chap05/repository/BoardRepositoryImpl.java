@@ -1,6 +1,5 @@
 package com.spring.mvc.chap05.repository;
 
-
 import com.spring.mvc.chap05.entity.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BoardRepositoryImpl implements BoardRepository{
+public class BoardRepositoryImpl implements BoardRepository {
 
     class BoardMapper implements RowMapper<Board> {
 
@@ -42,7 +41,7 @@ public class BoardRepositoryImpl implements BoardRepository{
     }
 
     @Override
-    public Board fineOne(int boardNo) {
+    public Board findOne(int boardNo) {
         String sql = "SELECT * FROM tbl_board WHERE board_no=?";
         try {
             return template.queryForObject(sql, new BoardMapper(), boardNo);
@@ -59,10 +58,8 @@ public class BoardRepositoryImpl implements BoardRepository{
     }
 
     @Override
-    public boolean delete(int boardNo) {
+    public void delete(int boardNo) {
         String sql = "DELETE FROM tbl_board WHERE board_no=?";
         template.update(sql, boardNo);
-        return false;
     }
-
 }
