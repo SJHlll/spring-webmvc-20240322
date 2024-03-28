@@ -1,3 +1,4 @@
+
 package com.spring.mvc.chap05.repository;
 
 import com.spring.mvc.chap05.entity.Board;
@@ -61,5 +62,13 @@ public class BoardRepositoryImpl implements BoardRepository {
     public void delete(int boardNo) {
         String sql = "DELETE FROM tbl_board WHERE board_no=?";
         template.update(sql, boardNo);
+    }
+
+    @Override
+    public void updateViewCount(int bno) {
+        String sql = "UPDATE tbl_board " +
+                "SET view_count = view_count + 1 " +
+                "WHERE board_no = ?";
+        template.update(sql, bno);
     }
 }
