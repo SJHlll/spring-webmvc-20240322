@@ -1,5 +1,11 @@
 package com.spring.mvc.chap05.common;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter @ToString
+@EqualsAndHashCode
 public class PageMaker {
 
 
@@ -44,20 +50,20 @@ public class PageMaker {
         // 마지막 페이지에 end값을 finalPage 값으로 변경
         if (this.finalPage < this.end) {
             this.end = this.finalPage;
+        }
 
         // 다음 버튼 활성화 여부 (next)
         this.next = this.end < this.finalPage;
-        }
-        
-        
-        // 메모장꺼임
+
+
+//        // 메모장꺼임
 //        // next 여부 구하기
 //        this.next = this.end + page.getAmount() >= totalCount ? false : true;
 //
 //        if (!next) {
 //            this.end = (int) Math.ceil((double) totalCount / page.getAmount());
 //        }
-        
+
 
 
     }

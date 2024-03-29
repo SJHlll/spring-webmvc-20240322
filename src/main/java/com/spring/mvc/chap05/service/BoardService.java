@@ -49,4 +49,8 @@ public class BoardService {
     public void delete(int bno) {
         mapper.delete(bno);
     }
+
+    public int getCount() {
+        return mapper.getCount();
+    }
 }
