@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.api;
 
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
+import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -37,8 +40,9 @@ public class ReplyApiController {
     public ResponseEntity<?> list(@PathVariable int boardNo) {
         System.out.println("/api/v1/replies/" + boardNo + ": GET!");
 
-        replyService.getList(boardNo);
+        List<ReplyDetailResponseDTO> dtoList = replyService.getList(boardNo);
 
+        return ResponseEntity.ok().body(dtoList);
     }
 
     // RequestParam : 동기요청에서 ? 뒤에 붙은 파라미터
