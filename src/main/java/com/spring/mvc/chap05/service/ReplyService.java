@@ -2,6 +2,7 @@ package com.spring.mvc.chap05.service;
 
 import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.common.PageMaker;
+import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
@@ -19,9 +20,10 @@ public class ReplyService {
 
     private final ReplyMapper mapper;
 
+
     public void register(ReplyPostRequestDTO dto) {
 
-        // dto를 entity로 변환
+        // dto를 entity로 변환.
         Reply reply = dto.toEntity();
 
         mapper.save(reply);
@@ -39,13 +41,23 @@ public class ReplyService {
         // DB에서 총 댓글 개수 조회
         int count = mapper.count(boardNo);
 
-        // 댓글 목록을 페이징 해야 하기 때문에 좀 더 여러개의 정보를 화면단으로 넘겨야 한다
-        // 그래서 DTO를 샐보게 생성함, PageMaker도 함께 보내고 있다
+        // 댓글 목록을 페이징 해야 하기 때문에 좀 더 여러개의 정보를 화면단으로 넘겨야 한다.
+        // 그래서 DTO를 새롭게 생성함. PageMaker도 함께 보내고 있다.
         return ReplyListResponseDTO.builder()
                 .replies(dtoList)
                 .count(count)
-                .pageInfo(new PageMaker(page, count)) // 객체 생성시 page, count를 전달하면 페이징 알고리즘이 돌아감
+                .pageInfo(new PageMaker(page, count)) // 객체 생성시 page, count를 전달하면 페이징 알고리즘이 돌아감.
                 .build();
 
+    }
+
+    public void modify(ReplyModifyRequestDTO dto) {
+
+        Reply reply = dto.toEntity();
+        mapper.modify(reply);
+    }
+
+    public void delete(Integer replyNo) {
+        mapper.delete(replyNo);
     }
 }
