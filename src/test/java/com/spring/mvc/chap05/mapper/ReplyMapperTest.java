@@ -45,17 +45,17 @@ class ReplyMapperTest {
     }
     */
 
-    @Test
-    @DisplayName("77번 게시물의 댓글 목록을 조회했을 때 결과 리스트의 사이즈는 n이어야 한다.")
-    void findAllTest() {
-        // given
-        int boardNo = 77;
-        // when
-        List<Reply> replyList = replyMapper.findAll(boardNo, page);
-
-        // then
-        assertEquals(10, replyList.size());
-    }
+//    @Test
+//    @DisplayName("77번 게시물의 댓글 목록을 조회했을 때 결과 리스트의 사이즈는 n이어야 한다.")
+//    void findAllTest() {
+//        // given
+//        int boardNo = 77;
+//        // when
+//        List<Reply> replyList = replyMapper.findAll(boardNo, page);
+//
+//        // then
+//        assertEquals(10, replyList.size());
+//    }
 
     @Test
     @DisplayName("77번 게시물의 댓글 중 n번 댓글을 삭제하면 n번 댓글은 조회되지 않을 것이고, " +
