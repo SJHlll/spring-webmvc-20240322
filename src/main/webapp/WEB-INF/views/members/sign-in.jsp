@@ -1,20 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Insert Your Title</title>
-        <%@ include file="../include/static-head.jsp" %>
 
-        <style>
-            .container.wrap {
-                margin-top: 200px;
-                margin-bottom: 200px;
-            }
-        </style>
+    <%@ include file="../include/static-head.jsp" %>
+
+    <style>
+        .container.wrap {
+            margin-top: 200px;
+            margin-bottom: 200px;
+        }
+    </style>
+
 </head>
 <body>
+
+    <c:if test="${login != null}">
+        <script>
+            alert('이미 로그인 했는데 왜와?');
+            location.href="/board/list";
+        </script>
+    </c:if>
+
+
     <%@ include file="../include/header.jsp" %>
 
     <div class="container wrap">
@@ -36,10 +48,10 @@
                                 </tr>
                                 <tr>
                                     <td><input type="text" name="account" id="signInId"
-                                               class="form-control tooltipstered" maxlength="10"
+                                               class="form-control tooltipstered" maxlength="14"
                                                required="required" aria-required="true"
                                                style="margin-bottom: 25px; width: 100%; height: 40px; border: 1px solid #d9d9de"
-                                               placeholder="최대 10자"></td>
+                                               placeholder="최대 14자"></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: left">
@@ -111,12 +123,13 @@
         console.log(serverResult);
 
         if (serverResult === 'NO_ACC') {
-            alert('회원가입을 먼저 해주세요.')
+            alert('회원가입부터 하고 오세요~~~');
         } else if (serverResult === 'NO_PW') {
-            alert('비밀번호가 틀렸습니다.')   
+            alert('비밀번호가 틀렸어~~~~');
         }
-        
+
     </script>
-    
+
+
 </body>
 </html>
