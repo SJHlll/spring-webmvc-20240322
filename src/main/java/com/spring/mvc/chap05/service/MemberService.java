@@ -111,6 +111,7 @@ public class MemberService {
                 .name(foundMember.getName())
                 .email(foundMember.getEmail())
                 .auth(foundMember.getAuth().getDescription())
+                .profile(foundMember.getProfileImage())
                 .build();
 
         // 세션에 로그인한 회원 정보를 저장
@@ -122,39 +123,29 @@ public class MemberService {
 
     public void autoLoginClear(HttpServletRequest request, HttpServletResponse response) {
 
-        // 1. 자동 로그인 쿠키를 가져온다
+        // 1. 자동 로그인 쿠키를 가져온다.
         Cookie c = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
 
-        // 2. 쿠키를 삭제한다
+        // 2. 쿠키를 삭제한다.
         // -> 쿠키의 수명을 0초로 설정하여 다시 클라이언트에 전송 -> 자동 소멸
         if (c != null) {
             c.setMaxAge(0);
             c.setPath("/");
             response.addCookie(c);
 
-            // 3. 데이터베이스에서도 세션아이디와 만료시간을 제거한다
+            // 3. 데이터베이스에서도 세션아이디와 만료시간을 제거하자.
             memberMapper.saveAutoLogin(
                     AutoLoginDTO.builder()
                             .sessionId("none") // 세션아이디 지우기
                             .limitTime(LocalDateTime.now()) // 로그아웃한 현재 날짜
-                            .account(getCurrentLoginMemberAccount(request.getSession())) // 로그인 중이였던 사용자 아이디
+                            .account(getCurrentLoginMemberAccount(request.getSession())) // 로그인 중이었던 사용자 아이디.
                             .build()
             );
 
         }
 
+
     }
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
