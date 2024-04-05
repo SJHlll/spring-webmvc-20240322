@@ -6,12 +6,14 @@ import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
 import com.spring.mvc.util.LoginUtils;
+import com.spring.mvc.util.upload.FileUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MemberController {
 
     private final MemberService memberService;
+    @Value("${file.upload.root-path}")
+    private String rootPath;
 
     // 회원 가입 양식 화면 요청
     // 응답하고자 하는 화면의 경로가 url과 동일하다면 void로 처리할 수 있습니다. (선택사항)
@@ -50,8 +54,13 @@ public class MemberController {
     @PostMapping("/sign-up")
     public String signUp(SignUpRequestDTO dto) {
         log.info("members/sign-up: POST, dto: {}", dto);
+        log.info("attached file name: {}", dto.getProfileImage().getOriginalFilename());
 
-        memberService.join(dto);
+        // 서버에 파일 업로드 지시
+        String savePath = FileUtils.uploadFile(dto.getProfileImage(), rootPath);
+        log.info("save-path: {}", savePath);
+
+        memberService.join(dto, savePath);
         return "redirect:/board/list";
     }
 
