@@ -23,7 +23,8 @@
     <mappers>
         <mapper resource="mapper/BoardMapper.xml" />
         <mapper resource="mapper/ReplyMapper.xml" />
-        <mapper resource="mapper/MemberMapper.xml"/>
+        <mapper resource="mapper/MemberMapper.xml" />
+        <mapper resource="mapper/WeatherMapper.xml" />
     </mappers>
 
 
