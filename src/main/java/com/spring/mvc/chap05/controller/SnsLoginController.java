@@ -40,7 +40,7 @@ public class SnsLoginController {
     public String snsKakao(String code) {
         log.info("카카오 로그인 인가 코드: {}", code);
 
-        // 인가 코드를 가지고 카카오 인증 서버에 토큰 발급 요청 보내기
+        // 인가 코드를 가지고 카카오 인증 서버에 토큰 발급 요청 보내기 (server to server 통신)
         // 서비스에게 시킴
         Map<String, String> params = new HashMap<>();
         params.put("appKey", kakaoAppKey);
@@ -49,6 +49,7 @@ public class SnsLoginController {
 
 
         SnsLoginService.kakaoLogin(params);
+        return "";
     }
 
 }
