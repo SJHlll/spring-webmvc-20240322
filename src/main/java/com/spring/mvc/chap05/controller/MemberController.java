@@ -3,6 +3,7 @@ package com.spring.mvc.chap05.controller;
 import com.mysql.cj.log.Log;
 import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
+import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
 import com.spring.mvc.util.LoginUtils;
@@ -20,15 +21,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static com.spring.mvc.util.LoginUtils.*;
+
 @Controller
 @RequestMapping("/members")
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
 
-    private final MemberService memberService;
+    // properties 파일에 작성한 값을 가져오는 아노테이션
     @Value("${file.upload.root-path}")
     private String rootPath;
+
+    private final MemberService memberService;
 
     // 회원 가입 양식 화면 요청
     // 응답하고자 하는 화면의 경로가 url과 동일하다면 void로 처리할 수 있습니다. (선택사항)
@@ -42,9 +47,8 @@ public class MemberController {
     @ResponseBody
     public ResponseEntity<?> check(@PathVariable String type,
                                    @PathVariable String keyword) {
-        log.info("members/check: async GET");
+        log.info("/members/check: async GET");
         log.debug("type: {}, keyword: {}", type, keyword);
-
 
         boolean flag = memberService.checkDuplicateValue(type, keyword);
 
@@ -53,12 +57,15 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     public String signUp(SignUpRequestDTO dto) {
-        log.info("members/sign-up: POST, dto: {}", dto);
+        log.info("/members/sign-up: POST, dto: {}", dto);
         log.info("attached file name: {}", dto.getProfileImage().getOriginalFilename());
 
         // 서버에 파일 업로드 지시
         String savePath = FileUtils.uploadFile(dto.getProfileImage(), rootPath);
         log.info("save-path: {}", savePath);
+
+        // 일반 방식(우리사이트를 통해)으로 회원가입
+        dto.setLoginMethod(Member.LoginMethod.COMMON);
 
         memberService.join(dto, savePath);
         return "redirect:/board/list";
@@ -67,7 +74,7 @@ public class MemberController {
     // 로그인 양식 화면 요청 처리
     @GetMapping("/sign-in")
     public void signIn() {
-        log.info("/members/sign-in: GET");
+        log.info("/members/sign-in: GET!");
     }
 
     // 로그인 검증 요청
@@ -80,9 +87,9 @@ public class MemberController {
                          HttpServletResponse response,
                          HttpServletRequest request
     ) {
-        log.info("/members/sign-in: POST, dto: {}", dto);
+        log.info("/members/sign-in: POST!, dto: {}", dto);
 
-        // 자동 로그인 서비스를 추가하기 위해 세션과 응답객체도 함께 전달
+        // 자동 로그인 서비스를 추가하기 위해 세션과 응답객체도 함께 전달.
         LoginResult result = memberService.authenticate(dto, request.getSession(), response);
         log.info("result: {}", result);
 
@@ -118,12 +125,14 @@ public class MemberController {
 
     // 로그아웃 요청 처리
     @GetMapping("/sign-out")
-    public String signOut(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        log.info("/members/sign-out: GET");
+    public String signOut(HttpSession session,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
+        log.info("/member/sign-out: GET!");
 
         // 자동 로그인 중인지 확인
-        if (LoginUtils.isAutoLogin(request)) {
-            // 쿠키 없애고 DB 데이터 원래대로 돌려놓기
+        if (isAutoLogin(request)) {
+            // 쿠키를 삭제해주고 DB 데이터도 원래대로 돌려놓아야 한다.
             memberService.autoLoginClear(request, response);
         }
 
@@ -133,32 +142,12 @@ public class MemberController {
         // 세션 전체 무효화 (초기화)
         session.invalidate();
 
-        return "redirect:/board/list";
+        return "redirect:/";
+
     }
 
 
 
 
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

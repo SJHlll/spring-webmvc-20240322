@@ -6,9 +6,9 @@
 
     <insert id="save">
         INSERT INTO tbl_member
-        (account, password, name, email, profile_image)
+        (account, password, name, email, profile_image, login_method)
         VALUES
-        (#{account}, #{password}, #{name}, #{email}, #{profileImage})
+        (#{account}, #{password}, #{name}, #{email}, #{profileImage}, #{loginMethod})
     </insert>
 
     <select id="findMember" resultType="member">
@@ -35,7 +35,7 @@
 
     <select id="findMemberByCookie" resultType="member">
         SELECT
-            account, name, email, auth, limit_time
+        account, name, email, auth, limit_time
         FROM tbl_member
         WHERE session_id = #{sessionId}
     </select>
